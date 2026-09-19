@@ -1,0 +1,240 @@
+﻿/* ==========================================================================
+   GymFlow Layout & Horizontal Form Styling
+   ========================================================================== */
+
+:root {
+    /* GymFlow Signature Palette */
+    --gf-body-bg: #f1f5f9; /* Clean, cool gym-slate canvas */
+    --gf-brand: #4f46e5; /* Energetic Indigo */
+    --gf-brand-hover: #4338ca;
+    --gf-brand-subtle: #eef2ff;
+    --gf-card-bg: #ffffff;
+    --gf-border: #cbd5e1; /* Defined input border */
+    --gf-border-focus: #6366f1;
+    --gf-text-dark: #0f172a; /* Deep slate heading & text */
+    --gf-text-muted: #64748b;
+    --gf-danger: #ef4444;
+    --gf-radius: 6px;
+}
+
+/* ==========================================================================
+   Body Background
+   ========================================================================== */
+body {
+    background-color: var(--gf-body-bg) !important;
+    color: var(--gf-text-dark);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Optional subtle top accent line for admin layouts */
+.content-wrapper, section.content {
+    background-color: transparent !important;
+}
+main.page-content {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+    /* 2. Reset margins and paddings on the form and top elements */
+    main.page-content > form.form-horizontal {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+        /* 3. Prevent margin-collapsing from the first element inside the form */
+        main.page-content > form.form-horizontal > section.content:first-child,
+        main.page-content > form.form-horizontal > .row:first-child,
+        main.page-content > form.form-horizontal > .box:first-child {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+section.content {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+/* ==========================================================================
+   Box Card Styling
+   ========================================================================== */
+.box.box-info.box_padding {
+    background: var(--gf-card-bg);
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid var(--gf-brand) !important; /* Indigo accent header bar */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    margin-bottom: 25px;
+    padding: 0;
+}
+
+.box-header.with-border {
+    border-bottom: 1px solid #edf2f7;
+    padding: 16px 22px;
+}
+
+.box-header .box-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gf-text-dark);
+    letter-spacing: -0.01em;
+}
+
+.box-body {
+    padding: 24px 28px 10px 28px;
+}
+
+/* ==========================================================================
+   Horizontal Form Labels (In Front of TextBox)
+   ========================================================================== */
+.form-horizontal .form_user .form-group {
+    margin-bottom: 18px;
+    /*display: flex;*/
+    align-items: center;
+}
+
+.gf-label,
+.form-horizontal .control-label.gf-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    text-align: left;
+    padding-top: 7px;
+    letter-spacing: 0.01em;
+}
+
+    /* Red Asterisk for Required Fields */
+    .gf-label .text-danger {
+        color: var(--gf-danger) !important;
+        font-weight: 700;
+        margin-left: 2px;
+    }
+
+/* ==========================================================================
+   Text Boxes, Date Inputs & Select Controls
+   ========================================================================== */
+.gf-input,
+.form-control.gf-input {
+    height: 38px;
+    font-size: 0.875rem;
+    color: var(--gf-text-dark);
+    background-color: #ffffff;
+    border: 1.5px solid var(--gf-border);
+    border-radius: var(--gf-radius);
+    padding: 6px 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+    .gf-input::placeholder {
+        color: #94a3b8;
+        font-size: 0.84rem;
+    }
+
+    .gf-input:hover {
+        border-color: #94a3b8;
+    }
+
+    /* Active focus ring */
+    .gf-input:focus,
+    .form-control.gf-input:focus {
+        background-color: #ffffff;
+        border-color: var(--gf-border-focus);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        outline: none;
+    }
+
+/* Textarea customization */
+textarea.gf-input,
+textarea.form-control.gf-input {
+    height: auto;
+    min-height: 70px;
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Validation State (ASP.NET Unobtrusive)
+   ========================================================================== */
+.input-validation-error,
+.form-control.gf-input.input-validation-error {
+    border-color: var(--gf-danger) !important;
+    background-color: #fef2f2 !important;
+}
+
+    .input-validation-error:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+.field-validation-error {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gf-danger);
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   Footer & Buttons
+   ========================================================================== */
+.box-footer {
+    background-color: #fafbfd;
+    border-top: 1px solid #edf2f7;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 14px 24px;
+}
+
+.btn-info {
+    background-color: var(--gf-brand);
+    border-color: var(--gf-brand);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: var(--gf-radius);
+    padding: 6px 18px;
+    transition: all 0.15s ease-in-out;
+}
+
+    .btn-info:hover,
+    .btn-info:focus,
+    .btn-info:active {
+        background-color: var(--gf-brand-hover) !important;
+        border-color: var(--gf-brand-hover) !important;
+        box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+    }
+
+.btn-default {
+    background-color: #ffffff;
+    border: 1px solid var(--gf-border);
+    color: var(--gf-text-muted);
+    font-weight: 600;
+    border-radius: var(--gf-radius);
+    padding: 6px 16px;
+}
+
+    .btn-default:hover {
+        background-color: #f8fafc;
+        color: var(--gf-text-dark);
+        border-color: #94a3b8;
+    }
+
+/* Center all child columns inside the form row */
+.row.justify-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure the label and text box align vertically and stay centered */
+.form_user .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+/* Right-align labels so they hug the text box */
+.form_user .control-label.gf-label {
+    text-align: right;
+    padding-right: 15px;
+}
+.box-footer .pull-center{
+    text-align:center;
+}
+

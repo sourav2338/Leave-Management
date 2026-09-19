@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interface\" />
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\LMS.Domain\LMS.Domain.csproj" />
+    <ProjectReference Include="..\LSM.Persistence\LSM.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,660 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutLMS.cshtml";
+}
+
+<!-- ================================
+     DASHBOARD HEADER
+     ================================= -->
+
+<div class="dashboard-header">
+
+    <div>
+        <h2 class="dashboard-title">
+            Good Morning, Admin 👋
+        </h2>
+
+        <p class="dashboard-subtitle">
+            Here's what's happening with your gym today.
+        </p>
+    </div>
+
+    <div>
+
+        <a href="@Url.Action("Create", "Member")"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-lg me-1"></i>
+
+            Add Member
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================================
+     STATISTICS
+     ================================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- Total Members -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="stat-content">
+
+                <div>
+
+                    <p class="stat-label">
+                        Total Employees
+                    </p>
+
+                    <h3 class="stat-value">
+                        @ViewBag.Employee
+                    </h3>
+
+                    <span class="stat-growth positive">
+                        <i class="bi bi-arrow-up"></i>
+                        8.2% this month
+                    </span>
+
+                </div>
+
+
+                <div class="stat-icon members-icon">
+
+                    <i class="bi bi-people-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Active Members -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="stat-content">
+
+                <div>
+
+                    <p class="stat-label">
+                        Active Members
+                    </p>
+
+                    <h3 class="stat-value">
+                        982
+                    </h3>
+
+                    <span class="stat-growth positive">
+                        <i class="bi bi-arrow-up"></i>
+                        5.4% this month
+                    </span>
+
+                </div>
+
+
+                <div class="stat-icon active-icon">
+
+                    <i class="bi bi-person-check-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Revenue -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="stat-content">
+
+                <div>
+
+                    <p class="stat-label">
+                        Monthly Revenue
+                    </p>
+
+                    <h3 class="stat-value">
+                        ₹2.4L
+                    </h3>
+
+                    <span class="stat-growth positive">
+                        <i class="bi bi-arrow-up"></i>
+                        12.5% this month
+                    </span>
+
+                </div>
+
+
+                <div class="stat-icon revenue-icon">
+
+                    <i class="bi bi-currency-rupee"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Expiring -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="stat-content">
+
+                <div>
+
+                    <p class="stat-label">
+                        Expiring Soon
+                    </p>
+
+                    <h3 class="stat-value">
+                        34
+                    </h3>
+
+                    <span class="stat-growth negative">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Requires attention
+                    </span>
+
+                </div>
+
+
+                <div class="stat-icon expiry-icon">
+
+                    <i class="bi bi-clock-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================================
+     MAIN DASHBOARD
+     ================================= -->
+
+<div class="row g-4">
+
+
+    <!-- =================================
+         REVENUE OVERVIEW
+         ================================= -->
+
+    <div class="col-xl-8">
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h5 class="panel-title">
+                        Revenue Overview
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Monthly revenue performance
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <select class="form-select form-select-sm">
+
+                        <option>Last 12 Months</option>
+
+                        <option>Last 6 Months</option>
+
+                        <option>Last 3 Months</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Simple Chart Placeholder -->
+
+            <div class="revenue-chart">
+
+                <div class="chart-y-axis">
+
+                    <span>₹3L</span>
+                    <span>₹2L</span>
+                    <span>₹1L</span>
+                    <span>₹0</span>
+
+                </div>
+
+
+                <div class="chart-area">
+
+                    <div class="chart-grid"></div>
+
+
+                    <div class="chart-bars">
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:45%;">
+                            </div>
+                            <span>Jan</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:60%;">
+                            </div>
+                            <span>Feb</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:52%;">
+                            </div>
+                            <span>Mar</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:72%;">
+                            </div>
+                            <span>Apr</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:65%;">
+                            </div>
+                            <span>May</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:82%;">
+                            </div>
+                            <span>Jun</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:75%;">
+                            </div>
+                            <span>Jul</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:92%;">
+                            </div>
+                            <span>Aug</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:85%;">
+                            </div>
+                            <span>Sep</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:96%;">
+                            </div>
+                            <span>Oct</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:88%;">
+                            </div>
+                            <span>Nov</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar"
+                                 style="height:100%;">
+                            </div>
+                            <span>Dec</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         RECENT MEMBERS
+         ================================= -->
+
+    <div class="col-xl-4">
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h5 class="panel-title">
+                        Recent Members
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Recently registered
+                    </p>
+
+                </div>
+
+                <a href="@Url.Action("Index", "Members")"
+                   class="view-all">
+
+                    View All
+
+                </a>
+
+            </div>
+
+
+            <!-- Member 1 -->
+
+            <div class="member-row">
+
+                <div class="member-info">
+
+                    <div class="member-avatar">
+                        JD
+                    </div>
+
+                    <div>
+
+                        <div class="member-name">
+                            John Doe
+                        </div>
+
+                        <div class="member-plan">
+                            Premium Plan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="member-status">
+                    Active
+                </span>
+
+            </div>
+
+
+            <!-- Member 2 -->
+
+            <div class="member-row">
+
+                <div class="member-info">
+
+                    <div class="member-avatar">
+                        RS
+                    </div>
+
+                    <div>
+
+                        <div class="member-name">
+                            Rahul Sharma
+                        </div>
+
+                        <div class="member-plan">
+                            Gold Plan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="member-status">
+                    Active
+                </span>
+
+            </div>
+
+
+            <!-- Member 3 -->
+
+            <div class="member-row">
+
+                <div class="member-info">
+
+                    <div class="member-avatar">
+                        AM
+                    </div>
+
+                    <div>
+
+                        <div class="member-name">
+                            Amit Mishra
+                        </div>
+
+                        <div class="member-plan">
+                            Basic Plan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="member-status">
+                    Active
+                </span>
+
+            </div>
+
+
+            <!-- Member 4 -->
+
+            <div class="member-row">
+
+                <div class="member-info">
+
+                    <div class="member-avatar">
+                        SK
+                    </div>
+
+                    <div>
+
+                        <div class="member-name">
+                            Sneha Kapoor
+                        </div>
+
+                        <div class="member-plan">
+                            Premium Plan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="member-status">
+                    Active
+                </span>
+
+            </div>
+
+
+            <!-- Member 5 -->
+
+            <div class="member-row">
+
+                <div class="member-info">
+
+                    <div class="member-avatar">
+                        VK
+                    </div>
+
+                    <div>
+
+                        <div class="member-name">
+                            Vikash Kumar
+                        </div>
+
+                        <div class="member-plan">
+                            Gold Plan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span class="member-status">
+                    Active
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ================================
+     QUICK ACTIONS
+     ================================= -->
+
+<div class="row g-4 mt-1">
+
+
+    <div class="col-lg-4">
+
+        <div class="quick-card">
+
+            <div class="quick-icon">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+            </div>
+
+            <div>
+
+                <h6>
+                    Add New Member
+                </h6>
+
+                <p>
+                    Register a new gym member
+                </p>
+
+            </div>
+
+            <a href="@Url.Action("Create", "Members")">
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="quick-card">
+
+            <div class="quick-icon">
+
+                <i class="bi bi-credit-card-fill"></i>
+
+            </div>
+
+            <div>
+
+                <h6>
+                    Record Payment
+                </h6>
+
+                <p>
+                    Add a new member payment
+                </p>
+
+            </div>
+
+            <a href="@Url.Action("Create", "Payments")">
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="quick-card">
+
+            <div class="quick-icon">
+
+                <i class="bi bi-calendar-check-fill"></i>
+
+            </div>
+
+            <div>
+
+                <h6>
+                    Today's Attendance
+                </h6>
+
+                <p>
+                    View today's attendance
+                </p>
+
+            </div>
+
+            <a href="@Url.Action("Index", "Attendance")">
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+
+</div>

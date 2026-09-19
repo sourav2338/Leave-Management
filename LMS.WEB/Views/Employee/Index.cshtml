@@ -1,0 +1,73 @@
+﻿@model LMS.WEB.Models.AdminLeaveItemViewModel
+@{
+    ViewData["Title"] = "Manage Employee";
+    Layout = "~/Views/Shared/_LayoutLms.cshtml";
+}
+@using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <section class="content">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="box box-info box_padding">
+                    <!-- Box Header -->
+                    <div class="box-header with-border">
+                        <div class="col-lg-6 pull-left">
+                            <h3 class="box-title">Manage Members</h3>
+                        </div>
+                    </div>
+
+                    <div class="box-body" style="padding-top: 20px;">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger alert alert-danger", style = "margin: 0 15px 15px 15px;" })
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Email </th>
+                                    <th>PhoneNumber </th>
+                                    <th>DateOfBirth </th>
+                                    <th>Gender </th>
+                                    <th>Address </th>
+                                    <th>SubscriptionId </th>
+                                    <th>JoiningDate </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @* @foreach (var member in ViewData.hello)
+                                {
+                                    <tr>
+                                        <td>@member.FirstName</td>
+                                        <td>@member.Email</td>
+                                        <td>@member.PhoneNumber</td>
+                                        <td>@member.DateOfBirth</td>
+                                        <td>@member.Gender</td>
+                                        <td>@member.Address</td>
+                                        <td>@member.SubscriptionId</td>
+                                        <td>@member.JoiningDate</td>
+                                        <td>@Html.ActionLink("Edit", "Edit", "Member", new { id = member.MemberId }, new { @class = "btn btn-sm btn-primary" })</td>
+                                    </tr>
+                                } *@
+
+                            </tbody>
+                        </table>
+
+                    </div>                  
+
+                   
+                    <div class="box-footer" style="padding: 15px 25px;">
+                        <div class="pull-center">
+                            <a href="@Url.Action("Index", "Members")" class="btn btn-default" style="margin-right: 8px;">Cancel</a>
+                            <button type="submit" class="btn btn-info">Save Member</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+}
+
