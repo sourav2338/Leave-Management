@@ -1,0 +1,151 @@
+﻿@model LMS.WEB.Models.UserViewModel
+
+<div class="row">
+
+    <!-- LEFT SIDE -->
+    <div class="col-md-6">
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FullName, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.FullName,new{@class = "form-control",placeholder = "Enter First name"})
+            @Html.ValidationMessageFor(m => m.FullName,"",new { @class = "text-danger" })
+            @Html.HiddenFor(m=>m.Id)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Email,new{@class = "form-control",type = "email",placeholder = "Enter email"})
+            @Html.ValidationMessageFor(m => m.Email,"",new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+            @Html.PasswordFor(m => m.Password,new{@class = "form-control",placeholder = "Enter password"})
+            @Html.ValidationMessageFor(m => m.Password,"",new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="col-md-6">
+       
+        <div class="form-group">
+            @Html.LabelFor(m => m.Role, new { @class = "control-label" })
+
+            @Html.DropDownListFor(m => m.Role,
+                    new SelectList(new[]
+                    {
+                        new { Value = "Admin", Text = "Admin" },
+                        new { Value = "Employee", Text = "Employee" }
+                    },
+                    "Value","Text"
+                ),
+                "Select Role",
+                new { @class = "form-control" })
+
+            @Html.ValidationMessageFor(m => m.Role,"",new { @class = "text-danger" })
+        </div>
+
+
+        <!-- ACTIVE TOGGLE -->
+        <div class="form-group">
+            <label class="control-label">Status</label>
+
+            <div style="margin-top: 8px;">
+                <label class="switch">
+
+                    @Html.CheckBoxFor(m => m.IsActive)
+
+                    <span class="slider round"></span>
+
+                </label>
+
+                <span id="statusText" style="margin-left: 10px;">
+                    @(Model.IsActive ? "Active" : "Inactive")
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="box-footer" style="padding: 15px 25px;">
+    <div class="pull-center">
+        <a href="@Url.Action("Index", "Employee")" class="btn btn-default" style="margin-right: 8px;">Cancel</a>
+        <button type="submit" class="btn btn-info">Save Employee</button>
+    </div>
+</div>
+
+
+<style>
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        vertical-align: middle;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #ccc;
+        transition: .3s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+        }
+
+    .switch input:checked + .slider {
+        background-color: #28a745;
+    }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+    .slider.round {
+        border-radius: 24px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+
+<script>
+
+    $(document).on("change", "#IsActive", function() {
+
+        if ($(this).is(":checked")) {
+            $("#statusText").text("Active");
+        }
+        else {
+            $("#statusText").text("Inactive");
+        }
+
+    });
+
+</script>

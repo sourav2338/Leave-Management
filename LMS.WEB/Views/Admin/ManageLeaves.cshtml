@@ -1,0 +1,136 @@
+﻿@model IEnumerable<LMS.WEB.Models.AdminLeaveItemViewModel>
+@{
+    ViewData["Title"] = "Manage Leaves";
+    Layout = "~/Views/Shared/_LayoutLMS.cshtml";
+    string currentFilter = ViewBag.CurrentStatusFilter as string ?? "All";
+}
+
+<div class="container-fluid px-4 py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Manage Leave Requests</h2>
+            <p class="text-muted mb-0">Review, approve, or reject employee leave applications.</p>
+        </div>
+        <a asp-controller="Admin" asp-action="Dashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Alert Notifications -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Filter Buttons -->
+    <div class="card border-0 shadow-sm rounded-3 mb-4 p-3 bg-light">
+        <div class="d-flex gap-2">
+            <a asp-action="ManageLeaves" asp-route-statusFilter="All"
+               class="btn btn-sm @(currentFilter == "All" ? "btn-primary" : "btn-outline-secondary")">All</a>
+            <a asp-action="ManageLeaves" asp-route-statusFilter="Pending"
+               class="btn btn-sm @(currentFilter == "Pending" ? "btn-warning text-dark" : "btn-outline-secondary")">Pending</a>
+            <a asp-action="ManageLeaves" asp-route-statusFilter="Approved"
+               class="btn btn-sm @(currentFilter == "Approved" ? "btn-success" : "btn-outline-secondary")">Approved</a>
+            <a asp-action="ManageLeaves" asp-route-statusFilter="Rejected"
+               class="btn btn-sm @(currentFilter == "Rejected" ? "btn-danger" : "btn-outline-secondary")">Rejected</a>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Dates & Duration</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th class="text-center" style="min-width: 250px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            var badgeClass = item.Status switch
+                            {
+                                "Approved" => "bg-success text-white",
+                                "Rejected" => "bg-danger text-white",
+                                _ => "bg-warning text-dark"
+                            };
+
+                            <tr>
+                                <td>
+                                    <div class="fw-semibold">@item.EmployeeName</div>
+                                    <small class="text-muted">@item.EmployeeEmail</small>
+                                </td>
+                                <td>
+                                    <div>@item.FromDate.ToString("dd MMM yyyy") &ndash; @item.ToDate.ToString("dd MMM yyyy")</div>
+                                    <span class="badge bg-light text-dark border">
+                                        @item.TotalDays @(item.TotalDays == 1 ? "day" : "days")
+                                    </span>
+                                </td>
+                                <td style="max-width: 200px;">
+                                    <span class="text-truncate d-inline-block w-100" title="@item.Reason">
+                                        @item.Reason
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge @badgeClass px-2 py-1">@item.Status</span>
+                                </td>
+                                <td>
+                                    <small class="text-muted">@(string.IsNullOrEmpty(item.AdminRemarks) ? "—" : item.AdminRemarks)</small>
+                                </td>
+                                <td class="text-center">
+                                    @if (item.Status == "Pending")
+                                    {
+                                        <form asp-action="UpdateLeaveStatus" method="post" class="d-flex gap-1 align-items-center justify-content-center">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="text" name="remarks" placeholder="Add remark..." class="form-control form-control-sm" style="max-width: 130px;" />
+                                            <button type="submit" name="status" value="Approved" class="btn btn-sm btn-success" title="Approve">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                            <button type="submit" name="status" value="Rejected" class="btn btn-sm btn-danger" title="Reject">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock-history me-1"></i> @(item.ReviewedAt?.ToString("dd MMM, hh:mm tt") ?? "Processed")
+                                        </small>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                <i class="bi bi-inbox fs-3 d-block mb-1"></i>
+                                No leave requests found matching this filter.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

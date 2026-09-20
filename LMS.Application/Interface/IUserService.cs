@@ -13,5 +13,10 @@ namespace LMS.Application.Interface
         //Task<bool> ToggleEmployeeStatusAsync(int employeeId);
         Task<List<User>> GetEmployeesListAsync(string? searchTerm);
         Task<List<User?>> GetAllEmployeeAsync();
+        Task<bool> UpdateStatusAsync(int id, bool isActive);
+        Task<User> GetUserByIdAsync(int id);
+        Task<bool> UpdateUserAsync(User model,int currentUserId);
+        Task<int> CreateUserAsync(User model);
+
     }
 }

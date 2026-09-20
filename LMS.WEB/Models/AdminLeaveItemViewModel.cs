@@ -13,6 +13,6 @@
         public string Status { get; set; } = "Pending";
         public string? AdminRemarks { get; set; }
         public DateTime? ReviewedAt { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

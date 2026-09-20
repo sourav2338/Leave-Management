@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LMS.Domain;
 
-namespace LMS.Domain
+namespace LMS.WEB.Models
 {
-    public class LeaveRequest
+    public class LeaveViewModel
     {
         public int Id { get; set; }
+
+        public DateTime FromDate { get; set; } = DateTime.UtcNow;
+
+        public DateTime ToDate { get; set; } = DateTime.UtcNow.AddDays(1);
+
+        public string? Reason { get; set; }
+       
         public int UserId { get; set; }
-        public User? User { get; set; }       
-        public DateTime FromDate { get; set; }       
-        public DateTime ToDate { get; set; }       
-        public string Reason { get; set; } = string.Empty;
+        public User? User { get; set; }
         public string Status { get; set; } = "Pending";
         public string? AdminRemarks { get; set; }
         public int? ReviewedByAdminId { get; set; }

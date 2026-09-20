@@ -1,0 +1,74 @@
+﻿@model LMS.WEB.Models.LeaveViewModel
+@{
+    ViewData["Title"] = "Apply Leave";
+    Layout = "~/Views/Shared/_LayoutLMS.cshtml";
+}
+@using (Html.BeginForm("ApplyLeave", "Leave", FormMethod.Post))
+{
+    <section class="content">
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+
+                <div class="box box-info box_padding">
+
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Apply Leave</h3>
+                    </div>
+
+                    <div class="box-body">
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        <div class="box-body">
+                            <div class="row">
+                                <!-- From Date -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.FromDate)
+
+                                        @Html.TextBoxFor(m => m.FromDate, "{0:yyyy-MM-dd}",new{@class = "form-control",type = "date"})
+                                        @Html.ValidationMessageFor(m => m.FromDate,"",new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <!-- To Date -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.ToDate)
+
+                                        @Html.TextBoxFor(m => m.ToDate,"{0:yyyy-MM-dd}",new{@class = "form-control",type = "date"})
+                                        @Html.ValidationMessageFor(m => m.ToDate,"",new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Leave Reason -->
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Reason)
+                                @Html.TextAreaFor(m => m.Reason,new{@class = "form-control",rows = "5",placeholder = "Enter reason for leave..."})
+                                @Html.ValidationMessageFor(m => m.Reason,"",new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer" style="padding: 15px 25px;">
+                            <div class="pull-center">
+                                <a href="@Url.Action("Dashboard", "Employee")" class="btn btn-default" style="margin-right: 8px;">Cancel</a>
+                                <button type="submit" class="btn btn-info">Save Employee</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

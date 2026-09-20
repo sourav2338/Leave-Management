@@ -1,5 +1,6 @@
 ﻿using LMS.Application.Interface;
 using LMS.Domain;
+using LMS.Domain.Common;
 using LSM.Persistence.Interface;
 
 
@@ -40,7 +41,37 @@ namespace LMS.Application.Service
            
             return user;
         }
+        public async Task<bool> UpdateStatusAsync(int id, bool isActive)
+        {
+            return await _userRepository.UpdateStatusAsync(id, isActive);
+        }
 
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            var user=await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                return null;
+            return user;
+        }
+        public  async Task<bool> UpdateUserAsync(User model,int currentUserId)
+        {
+            var updateDetails = new User
+            {
+                Id = model.Id,
+                FullName = model.FullName,
+                Email = model.Email,
+                PasswordHash=model.PasswordHash,
+                UpdatedBy = currentUserId,
+                UpdatedON = DateTime.UtcNow
+            };
+            bool status=await _userRepository.UpdateUserAsync(model);
+            return status;
+        }
+
+        public async Task<int> CreateUserAsync(User model)
+        {
+            return await _userRepository.CreateUserAsync(model);
+        }
         //public async Task<ServiceResult> ToggleEmployeeStatusAsync(int employeeId)
         //{
         //    var user = await _userRepository.GetByIdAsync(employeeId);

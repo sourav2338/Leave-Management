@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <!-- GymFlow CSS -->
+   
     <link rel="stylesheet" href="~/css/lms.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/lms-forms.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="sidebar-open">
 
@@ -30,14 +32,30 @@
         <!-- Main -->
         <div class="menu-title">MAIN</div>
         <nav class="sidebar-menu">
-            <a asp-controller="Dashboard" asp-action="Index" class="menu-item active">
-                <i class="bi bi-grid-1x2-fill"></i>
-                <span>Dashboard</span>
-            </a>
-            <a asp-controller="Employee" asp-action="Index" class="menu-item">
-                <i class="bi bi-people-fill"></i>
-                <span>Employees</span>
-            </a>           
+            @if (Context.Request.Cookies["UserRole"] == "Employee")
+            {
+                <a asp-controller="Employee" asp-action="Dashboard" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Employee" ? "active" : "")">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>               
+                <a asp-controller="Leave" asp-action="Index" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Leave" ? "active" : "")">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Leave</span>
+                </a>
+            }
+            @if (Context.Request.Cookies["UserRole"] == "Admin")
+            {
+                <a asp-controller="Admin" asp-action="Dashboard" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a asp-controller="Employee" asp-action="Index" class="menu-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Employee" ? "active" : "")">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Employees</span>
+                </a>
+               
+            }
+               
         </nav>
 
        
@@ -67,7 +85,7 @@
 
                 <div class="search-box">
                     <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Search members, trainers..." />
+                    <input type="text" placeholder="Search Employees..." />
                 </div>
             </div>
 
@@ -82,8 +100,8 @@
                 <div class="user-profile">
                     <div class="user-avatar">AD</div>
                     <div class="user-info">
-                        <div class="user-name">Admin</div>
-                        <div class="user-role">Gym Owner</div>
+                        <div class="user-name">@Context.Request.Cookies["UserName"]</div>
+                        <div class="user-role" style="color:#000000!important">@Context.Request.Cookies["UserRole"]</div>
                     </div>
                     <i class="bi bi-chevron-down user-arrow"></i>
                 </div>

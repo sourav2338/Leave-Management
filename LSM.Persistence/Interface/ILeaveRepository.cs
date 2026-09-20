@@ -11,7 +11,7 @@ namespace LSM.Persistence.Interface
     {
         Task<bool> HasOverlappingLeaveAsync(int userId, DateTime fromDate, DateTime toDate);
         Task<int> CreateLeaveRequestAsync(LeaveRequest request);
-        Task<IEnumerable<LeaveRequest>> GetLeavesByUserIdAsync(int userId);
+        Task<List<LeaveRequest>> GetLeavesByUserIdAsync(int userId);
         Task<IEnumerable<dynamic>> GetAllLeavesWithEmployeeDetailsAsync();
         Task<int> UpdateStatusAsync(int leaveId, string status, string? remarks, int adminId);
         Task<(int Pending, int Approved, int Rejected)> GetSummaryCountsAsync();

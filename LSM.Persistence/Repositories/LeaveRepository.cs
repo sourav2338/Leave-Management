@@ -19,8 +19,7 @@ namespace LSM.Persistence.Repositories
         }
 
         public async Task<bool> HasOverlappingLeaveAsync(int userId, DateTime fromDate, DateTime toDate)
-        {
-            // Standard overlap check: (NewFrom <= ExistingTo) AND (NewTo >= ExistingFrom)
+        {            
             const string sql = @"
                 SELECT COUNT(1) 
                 FROM LeaveRequests 
@@ -37,24 +36,25 @@ namespace LSM.Persistence.Repositories
         public async Task<int> CreateLeaveRequestAsync(LeaveRequest request)
         {
             const string sql = @"
-                INSERT INTO LeaveRequests (UserId, FromDate, ToDate, Reason, Status, CreatedAt)
-                VALUES (@UserId, @FromDate, @ToDate, @Reason, @Status, @CreatedAt);
+                INSERT INTO LeaveRequests (UserId, FromDate, ToDate, Reason, Status, CreatedOn,CreatedBy)
+                VALUES (@UserId, @FromDate, @ToDate, @Reason, @Status, @CreatedOn,@CreatedBy);
                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using var connection = _connectionFactory.CreateConnection();
             return await connection.ExecuteScalarAsync<int>(sql, request);
         }
 
-        public async Task<IEnumerable<LeaveRequest>> GetLeavesByUserIdAsync(int userId)
+        public async Task<List<LeaveRequest>> GetLeavesByUserIdAsync(int userId)
         {
             const string sql = @"
-                SELECT Id, UserId, FromDate, ToDate, Reason, Status, AdminRemarks, ReviewedByAdminId, ReviewedAt, CreatedAt
+                SELECT Id, UserId, FromDate, ToDate, Reason, Status, AdminRemarks, ReviewedByAdminId, ReviewedAt, CreatedOn
                 FROM LeaveRequests
                 WHERE UserId = @UserId
-                ORDER BY CreatedAt DESC";
+                ORDER BY CreatedOn DESC";
 
             using var connection = _connectionFactory.CreateConnection();
-            return await connection.QueryAsync<LeaveRequest>(sql, new { UserId = userId });
+            var result= await connection.QueryAsync<LeaveRequest>(sql, new { UserId = userId });
+            return result.AsList();
         }
 
         public async Task<IEnumerable<dynamic>> GetAllLeavesWithEmployeeDetailsAsync()
@@ -71,10 +71,10 @@ namespace LSM.Persistence.Repositories
                     lr.Status,
                     lr.AdminRemarks,
                     lr.ReviewedAt,
-                    lr.CreatedAt
+                    lr.CreatedOn
                 FROM LeaveRequests lr
                 INNER JOIN Users u ON lr.UserId = u.Id
-                ORDER BY lr.CreatedAt DESC";
+                ORDER BY lr.CreatedOn DESC";
 
             using var connection = _connectionFactory.CreateConnection();
             return await connection.QueryAsync(sql);

@@ -1,8 +1,7 @@
-﻿
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace LMS.Domain
+namespace LMS.Domain.Common
 {
     public class PasswordHelper
     {

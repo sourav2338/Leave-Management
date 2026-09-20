@@ -1,0 +1,76 @@
+﻿@model LMS.WEB.Models.LeaveViewModel
+@{
+    ViewData["Title"] = "Manage Leaves";
+    Layout = "~/Views/Shared/_LayoutLms.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Leave", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    <section class="content">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="box box-info box_padding">
+                    <div class="box-header with-border"
+                         style="display: flex; align-items: center; justify-content: space-between;">
+
+                        <h3 class="box-title" style="margin: 0;">
+                            Manage Leaves
+                        </h3>
+                    </div>
+
+                    <div class="box-body" style="padding-top: 20px;">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger alert alert-danger", style = "margin: 0 15px 15px 15px;" })
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>FromDate</th>
+                                    <th>ToDate </th>
+                                    <th>Reason </th>
+                                    <th>Status </th>
+                                    <th>AdminRemarks</th>
+                                    <th>ReviewedByAdminId</th>
+                                    <th>ReviewedAt</th> 
+                                    
+
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                @{
+                                    int count = 1;
+                                }
+                                @foreach (var leave in ViewBag.EmployeeLeave)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@leave.FromDate</td>
+                                        <td>@leave.ToDate</td>
+                                        <td>@leave.Reason</td>
+                                        <td>@leave.Status</td>
+                                        <td>@leave.AdminRemarks</td>
+                                        <td>@leave.ReviewedByAdminId</td>
+                                        <td>@leave.ReviewedAt</td>                                      
+
+                                    </tr>
+                                    count++;
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+}

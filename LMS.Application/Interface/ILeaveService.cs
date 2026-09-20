@@ -1,4 +1,6 @@
 ﻿
+using LMS.Domain;
+using LMS.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,12 @@ namespace LMS.Application.Interface
 {
     public interface ILeaveService
     {
-        //Task<EmployeeDashboardViewModel> GetEmployeeDashboardAsync(int userId, string userName, string userEmail);
+        
+        
         //Task<AdminDashboardViewModel> GetAdminDashboardAsync();
-        //Task<bool> ApplyLeaveAsync(int userId, LeaveApplicationViewModel model);
-        //Task<bool> ReviewLeaveRequestAsync(int leaveId, string status, string? remarks, int adminId);
-        //Task<IEnumerable<dynamic>> GetAllLeaveRequestsAsync();
+        Task<ServiceResult> ApplyLeaveAsync(int userId, LeaveRequest model);
+        Task<bool> ReviewLeaveRequestAsync(int leaveId, string status, string? remarks, int adminId);
+        Task<IEnumerable<dynamic>> GetAllLeaveRequestsAsync();
+        Task<List<LeaveRequest>> GetLeavesByUserIdAsync(int userId);
     }
 }

@@ -16,6 +16,13 @@ namespace LMS.WEB.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (Request.Cookies.ContainsKey("UserId"))
+            {
+                var role = Request.Cookies["UserRole"];
+                return role == "Admin"
+                    ? RedirectToAction("Dashboard", "Admin")
+                    : RedirectToAction("Dashboard", "Employee");
+            }
             return View();
         }
         [HttpPost]
@@ -50,6 +57,16 @@ namespace LMS.WEB.Controllers
             return user.Role == "Admin"
                 ? RedirectToAction("Dashboard", "Admin")
                 : RedirectToAction("Dashboard", "Employee");
+        }
+        [HttpGet]       
+        public IActionResult Logout()
+        {
+            // Delete cookies on logout
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("UserRole");
+            Response.Cookies.Delete("UserName");
+
+            return RedirectToAction("Login", "Account");
         }
     }
 }

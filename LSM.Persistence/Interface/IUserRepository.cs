@@ -10,5 +10,8 @@ namespace LSM.Persistence.Interface
         Task<int> ToggleEmployeeStatusAsync(int id);
         Task<int> GetTotalEmployeesCountAsync();
         Task<List<User?>> GetAllUserAsync();
+        Task<bool> UpdateStatusAsync(int id, bool IsActive);
+        Task<bool> UpdateUserAsync(User model);
+        Task<int> CreateUserAsync(User model);
     }
 }

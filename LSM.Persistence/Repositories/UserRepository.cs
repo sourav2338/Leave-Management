@@ -32,7 +32,7 @@ namespace LSM.Persistence.Repositories
         public async Task<User?> GetByIdAsync(int id)
         {
             const string sql = @"
-                SELECT Id, FullName, Email, PasswordHash, Role, IsActive, CreatedAt 
+                SELECT Id, FullName, Email, PasswordHash, Role, IsActive 
                 FROM Users 
                 WHERE Id = @Id";
 
@@ -88,6 +88,51 @@ namespace LSM.Persistence.Repositories
             var users = await connection.QueryAsync<User>(sql);
             return users.AsList();
         }
-         
+        public async Task<bool> UpdateStatusAsync(int id, bool isActive)
+        {
+            const string sql = """
+        UPDATE Users
+        SET IsActive = @IsActive
+        WHERE Id = @Id
+        """;
+            using var connection = _connectionFactory.CreateConnection();
+            var affectedRows = await connection.ExecuteAsync(
+                sql,
+                new
+                {
+                    Id = id,
+                    IsActive = isActive
+                });
+
+            return affectedRows > 0;
+        }
+
+        public async Task<bool> UpdateUserAsync(User model)
+        {
+            const string sql = @"
+            UPDATE Users
+            SET
+                FullName = @FullName,
+                Email = @Email,
+                Role = @Role,
+                IsActive = @IsActive,
+                UpdatedBy = @UpdatedBy,
+                UpdatedOn = @UpdatedOn
+            WHERE Id = @Id";
+             using var connection= _connectionFactory.CreateConnection();
+            var affectedRows = await connection.ExecuteAsync(sql, model);
+
+            return affectedRows > 0;
+        }
+
+        public async Task<int> CreateUserAsync(User model)
+        {
+            const string sql = @"INSERT INTO Users(FullName,Email,Role,PasswordHash,IsActive,CreatedBy,CreatedOn)
+                VALUES(@FullName,@Email,@Role,@PasswordHash,@IsActive,@CreatedBy,@CreatedOn);
+            SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+            using var connection = _connectionFactory.CreateConnection();
+            return await connection.ExecuteScalarAsync<int>(sql, model);
+        }
     }
 }

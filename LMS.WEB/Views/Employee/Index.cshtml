@@ -1,21 +1,83 @@
-﻿@model LMS.WEB.Models.AdminLeaveItemViewModel
+﻿@model IEnumerable<LMS.WEB.Models.UserViewModel>
 @{
     ViewData["Title"] = "Manage Employee";
     Layout = "~/Views/Shared/_LayoutLms.cshtml";
 }
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 42px;
+        height: 22px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #ccc;
+        transition: 0.3s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+    input:checked + .slider {
+        background-color: #28a745;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+    .slider.round {
+        border-radius: 22px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
 @using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
-
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <section class="content">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="box box-info box_padding">
-                    <!-- Box Header -->
-                    <div class="box-header with-border">
-                        <div class="col-lg-6 pull-left">
-                            <h3 class="box-title">Manage Members</h3>
-                        </div>
+                    <div class="box-header with-border"
+                         style="display: flex; align-items: center; justify-content: space-between;">
+
+                        <h3 class="box-title" style="margin: 0;">
+                            Manage Employees
+                        </h3>
+
+                        <a href="@Url.Action("Create", "Employee")"
+                           class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            Add Employee
+                        </a>
+
                     </div>
 
                     <div class="box-body" style="padding-top: 20px;">
@@ -26,48 +88,77 @@
                                 <tr>
                                     <th>Full Name</th>
                                     <th>Email </th>
-                                    <th>PhoneNumber </th>
-                                    <th>DateOfBirth </th>
-                                    <th>Gender </th>
-                                    <th>Address </th>
-                                    <th>SubscriptionId </th>
-                                    <th>JoiningDate </th>
-                                    <th>Actions</th>
+                                    <th>Role </th>
+                                    <th>IsActive </th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @* @foreach (var member in ViewData.hello)
+                                @foreach (var member in Model)
                                 {
                                     <tr>
-                                        <td>@member.FirstName</td>
+                                        <td>@member.FullName</td>
                                         <td>@member.Email</td>
-                                        <td>@member.PhoneNumber</td>
-                                        <td>@member.DateOfBirth</td>
-                                        <td>@member.Gender</td>
-                                        <td>@member.Address</td>
-                                        <td>@member.SubscriptionId</td>
-                                        <td>@member.JoiningDate</td>
-                                        <td>@Html.ActionLink("Edit", "Edit", "Member", new { id = member.MemberId }, new { @class = "btn btn-sm btn-primary" })</td>
+                                        <td>@member.Role</td>
+
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox"
+                                                       class="employee-status-toggle"
+                                                       data-id="@member.Id"
+                                                @(member.IsActive ? "checked" : "") />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Employee", new { id = member.Id })"
+                                               class="btn btn-sm btn-primary"
+                                               title="Edit">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
+
                                     </tr>
-                                } *@
+                                }
 
                             </tbody>
                         </table>
 
-                    </div>                  
-
+                    </div>                   
                    
-                    <div class="box-footer" style="padding: 15px 25px;">
-                        <div class="pull-center">
-                            <a href="@Url.Action("Index", "Members")" class="btn btn-default" style="margin-right: 8px;">Cancel</a>
-                            <button type="submit" class="btn btn-info">Save Member</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
 
     </section>
 }
+@section Scripts{
+    <script>
+        $(document).on("change", ".employee-status-toggle", function() {
 
+            var userId = $(this).data("id");
+            var isActive = $(this).is(":checked");
+
+            $.ajax({
+                url: '@Url.Action("ToggleStatus", "Employee")',
+                type: 'POST',
+                data: {
+                    id: userId,
+                    isActive: isActive
+                },
+                success: function(response) {
+
+                    if (!response.success) {
+                        alert(response.message);
+                    }
+
+                },
+                error: function() {
+                    alert("Something went wrong.");
+                }
+            });
+        });
+    </script>
+}
